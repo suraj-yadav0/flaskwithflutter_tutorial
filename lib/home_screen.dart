@@ -10,10 +10,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late String url;
-  var Data;
+  late String url = "";
 
-  String QuerryText = 'Querry';
+  var data;
+
+  String output = 'Initial Text';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,16 +27,16 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(10),
             child: TextField(
               onChanged: (value) {
-                url = 'http://10.0.2.2:5000/api?Querry=' + value.toString();
+                url = 'http://10.0.2.2:5000/api?query=' + value.toString();
               },
               decoration: InputDecoration(
                 hintText: "Search Anything Here",
                 suffixIcon: GestureDetector(
                   onTap: () async {
-                    Data = await getdata(Uri.parse(url));
-                    var decodedData = jsonDecode(Data);
+                    data = await getdata((url));
+                    var decodedData = jsonDecode(data);
                     setState(() {
-                      QuerryText = decodedData['Querry'];
+                    output = decodedData['output'];
                     });
                   },
                   child: const Icon(Icons.search),
@@ -46,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.all(10),
             child: Text(
-              QuerryText,
+              output,
               style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
           )
